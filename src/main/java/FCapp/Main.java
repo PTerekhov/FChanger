@@ -13,4 +13,4 @@ public class Main {
         FileHandler FH = new FileHandler("FH");
         FH.Work(filename);
     }
-} ///Users/pterekhov/TestProjects/Quest1/small.json
+}
