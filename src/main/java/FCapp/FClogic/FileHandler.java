@@ -2,17 +2,17 @@ package FCapp.FClogic;
 
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 public class FileHandler {
     private String name;
+    private ArrayList<String> dataList = new ArrayList<String>();
 
     public FileHandler(String name){
         this.name = name;
@@ -25,10 +25,15 @@ public class FileHandler {
 
             JSONArray dataArray = (JSONArray) obj;
 
-            for(int i=0; i<dataArray.size(); i++){
-                JSONObject jsonObjectRow = (JSONObject) dataArray.get(i);
-                //System.out.println(jsonObjectRow);
+            if (dataArray != null) {
+                for (int i = 0; i < dataArray.size(); i++) {
+                    dataList.add(dataArray.get(i).toString());
+                }
             }
+
+            /*for(int i=0; i<dataList.size(); i++){
+                System.out.println(dataList.get(i));
+            }*/
         }
         catch(FileNotFoundException e){e.printStackTrace();}
         catch(IOException e){e.printStackTrace();}
