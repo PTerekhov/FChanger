@@ -8,7 +8,10 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileHandler {
     private String name;
@@ -17,12 +20,14 @@ public class FileHandler {
         this.name = name;
     }
 
-    public void Work (String FILENAME){
+    public void Work (String FileName, String NewFileName){
         JSONParser parser = new JSONParser();
         try{
-            Object obj = parser.parse(new FileReader(FILENAME));
+            Object obj = parser.parse(new FileReader(FileName));
+            JSONObject NewObject = new JSONObject();
 
             JSONArray dataArray = (JSONArray) obj;
+            JSONArray dataArrayChanged = new JSONArray();
 
             if (dataArray != null) {
                 for (int i = 0; i < dataArray.size(); i++) {
@@ -34,13 +39,26 @@ public class FileHandler {
                     String service = (String) jsonObjectRow.get("service");
                     String jobname = (String) jsonObjectRow.get("jobname");
 
+                    JSONObject obj1 = new JSONObject();
+                    JSONObject obj2 = new JSONObject();
 
-                    System.out.println(
-                            replicas.toString() + '\n'
-                            + version + '\n'
-                            + env + '\n'
-                            + service + '\n'
-                            + jobname + '\n');
+                    obj1.put("fullname",jobname+"/"+env);
+                        obj2.put("Action","$ACTION$");
+                        obj2.put("Service",service);
+                        obj2.put("Services version", version);
+                    obj1.put("params", obj2);
+
+                    dataArrayChanged.add(obj1);
+
+                }
+                System.out.println(dataArrayChanged);
+
+                try (FileWriter writer = new FileWriter(NewFileName)){
+                    writer.write(dataArrayChanged.toJSONString());
+                    writer.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(FileHandler.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 }
             }
 
