@@ -44,31 +44,13 @@ public class FileHandler_xlsx {
 
         }
 
-
+        /*  //для проверки работы
         for (int i =0; i< rowList.size(); i++){
             for(int j=0; j<rowList.get(i).length ; j++){
                 System.out.print(rowList.get(i)[j] + "\t");
             }
             System.out.println();
-        }
+        } */
 
     }
 }
-
-/*
-
-
-for(int i=1; i<111; i++){
-            try {   double Values[] = new double[6];
-                for (int j = 0; j < 6; j++) {
-                    Values[j] = WB.getSheetAt(0).getRow(i).getCell(j+1).getNumericCellValue();
-                }
-                rowList.add(Values);
-            }
-            catch (NullPointerException e){
-                e.printStackTrace();
-            }
-        }
-
-
- */
