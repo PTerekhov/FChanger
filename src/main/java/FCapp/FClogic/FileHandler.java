@@ -51,15 +51,11 @@ public class FileHandler {
                     dataArrayChanged.add(obj1);
 
                 }
-                System.out.println(dataArrayChanged);
 
                 try (FileWriter writer = new FileWriter(NewFileName)){
-                    writer.write(dataArrayChanged.toJSONString());
+                    writer.write(String.valueOf(dataArrayChanged));
                     writer.flush();
-                } catch (IOException ex) {
-                    Logger.getLogger(FileHandler.class.getName())
-                            .log(Level.SEVERE, null, ex);
-                }
+                } catch (IOException e) { e.printStackTrace();}
             }
 
         }
