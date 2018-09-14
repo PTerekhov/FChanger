@@ -10,21 +10,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class FileHandler {
-    private String name;
+public class FileHandler_json {
 
-    public FileHandler(String name){
-        this.name = name;
-    }
+    public FileHandler_json(){}
 
     public void Work (String FileName, String NewFileName){
         JSONParser parser = new JSONParser();
         try{
             Object obj = parser.parse(new FileReader(FileName));
-            JSONObject NewObject = new JSONObject();
 
             JSONArray dataArray = (JSONArray) obj;
             JSONArray dataArrayChanged = new JSONArray();
@@ -51,6 +45,8 @@ public class FileHandler {
                     dataArrayChanged.add(obj1);
 
                 }
+
+                System.out.println("Done!!!");
 
                 try (FileWriter writer = new FileWriter(NewFileName)){
                     writer.write(String.valueOf(dataArrayChanged));
