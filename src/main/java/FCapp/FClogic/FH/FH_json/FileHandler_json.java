@@ -1,6 +1,7 @@
-package FCapp.FClogic;
+package FCapp.FClogic.FH.FH_json;
 
 
+import FCapp.FClogic.FB_anytype.FileBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -8,20 +9,25 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class FileHandler_json {
+public class FileHandler_json{
+
+    private FileBuilder FB = new FileBuilder();
+    private JSONArray dataArray = new JSONArray();
+    private JSONArray dataArrayChanged = new JSONArray();
+    private ArrayList<String> list = new ArrayList<String>();
 
     public FileHandler_json(){}
-
     public void Work (String FileName, String NewFileName){
+
+
         JSONParser parser = new JSONParser();
         try{
             Object obj = parser.parse(new FileReader(FileName));
 
-            JSONArray dataArray = (JSONArray) obj;
-            JSONArray dataArrayChanged = new JSONArray();
+            dataArray = (JSONArray) obj;
 
             if (dataArray != null) {
                 for (int i = 0; i < dataArray.size(); i++) {
@@ -46,13 +52,18 @@ public class FileHandler_json {
 
                 }
 
-                System.out.println("Done!!!");
 
-                try (FileWriter writer = new FileWriter(NewFileName)){
-                    writer.write(String.valueOf(dataArrayChanged));
-                    writer.flush();
-                } catch (IOException e) { e.printStackTrace();}
+                if (dataArrayChanged != null) {
+                    int len = dataArrayChanged.size();
+                    for (int i=0;i<len;i++){
+                        list.add(dataArrayChanged.get(i).toString());
+                    }
+                }
+
+                FB.Work(NewFileName, list);
             }
+
+
 
         }
         catch(FileNotFoundException e){e.printStackTrace();}
